@@ -27,6 +27,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
+
   opts = function()
     local ok, mason_registry = pcall(require, "mason-registry")
     local adapter ---@type any
@@ -78,5 +79,23 @@ require("lazy").setup({
         "zipPlugin",
       },
     },
+  },
+})
+require("vscode").setup({
+  -- Alternatively set style in setup
+  -- style = 'light'
+
+  -- Enable transparent background
+  transparent = false,
+
+  -- Enable italic comment
+  italic_comments = true,
+
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = true,
+
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscLineNumber = "#FFFFFF",
   },
 })
