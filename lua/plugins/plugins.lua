@@ -8,11 +8,21 @@ return {
       require("github-theme").setup({
         -- ...
       })
-
-      vim.cmd("colorscheme github_dark")
     end,
   },
   {
     "APZelos/blamer.nvim",
+  },
+  {
+    "mfussenegger/nvim-dap",
+  },
+  {
+    "simrat39/rust-tools.nvim",
+  },
+  {
+    "declancm/cinnamon.nvim",
+  },
+  {
+    "edluffy/specs.nvim",
   },
 }

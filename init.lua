@@ -8,4 +8,12 @@ if vim.g.neovide then
 end
 
 vim.g.blamer_enabled = true
-vim.cmd([[colorscheme darcula-dark]])
+function RunMyCommand()
+  -- Replace 'your_command_here' with the actual Vim command you want to run
+  vim.cmd("RustDebuggables")
+end
+
+-- Create a custom key mapping for Leader key + rt to trigger the function
+vim.api.nvim_set_keymap("n", "<Leader>rt", [[:lua RunMyCommand()<CR>]], { noremap = true, silent = true })
+-- vim.cmd([[colorscheme darcula-dark]])
+vim.cmd([[colorscheme vscode]])
