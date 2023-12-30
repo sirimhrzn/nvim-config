@@ -15,6 +15,7 @@ require("lazy").setup({
     -- { import = "lazyvim.plugins.extras.lang.json" },
     -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
     -- import/override with your plugins
+
     { import = "lazyvim.plugins.extras.lang.rust" },
     { import = "plugins" },
   },
@@ -27,7 +28,23 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-
+  install = { colorscheme = { "tokyonight", "habamax" } },
+  checker = { enabled = true }, -- automatically check for plugin updates
+  performance = {
+    rtp = {
+      -- disable some rtp plugins
+      disabled_plugins = {
+        "gzip",
+        -- "matchit",
+        -- "matchparen",
+        -- "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
   opts = function()
     local ok, mason_registry = pcall(require, "mason-registry")
     local adapter ---@type any
@@ -63,39 +80,13 @@ require("lazy").setup({
       },
     }
   end,
-  install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = { enabled = false }, -- automatically check for plugin updates
-  performance = {
-    rtp = {
-      -- disable some rtp plugins
-      disabled_plugins = {
-        "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
-      },
-    },
-  },
 })
 require("vscode").setup({
-  -- Alternatively set style in setup
-  -- style = 'light'
-
-  -- Enable transparent background
   transparent = false,
-
-  -- Enable italic comment
   italic_comments = true,
-
-  -- Disable nvim-tree background color
   disable_nvimtree_bg = true,
-
-  -- Override colors (see ./lua/vscode/colors.lua)
   color_overrides = {
     vscLineNumber = "#FFFFFF",
   },
 })
+require("telescope").load_extension("dap")

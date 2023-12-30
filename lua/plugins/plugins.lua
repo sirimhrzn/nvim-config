@@ -25,4 +25,14 @@ return {
   {
     "edluffy/specs.nvim",
   },
+  {
+    "ThePrimeagen/harpoon",
+  },
+  {
+    "folke/zen-mode.nvim",
+  },
+  { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
+  { "folke/neodev.nvim", opts = {} },
+  { "theHamsta/nvim-dap-virtual-text" },
+  { "nvim-telescope/telescope-dap.nvim" },
 }
