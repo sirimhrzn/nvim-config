@@ -1,0 +1,35 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+            format_left  "#[fg=#6C7086,bold]{session} {tabs}"
+            format_right "{mode} {command_3}  {datetime}"
+            datetime        "#[fg=#6C7086,bold] {format} "
+            datetime_format "%A,%H:%M"
+
+            mode_normal        "#[fg=#6C7086,bold]{name} "
+            mode_tmux          "#[fg=#6C7086,bold]{name} "
+            mode_rename_tab    "#[fg=#6C7086,bold]{name} "
+            mode_rename_pane   "#[fg=#6C7086,bold]{name} "
+            mode_session       "#[fg=#6C7086,bold]{name} "
+
+            datetime_timezone "Asia/Kathmandu"
+
+            tab_normal              "#[fg=#blue,bg=#blue,italic]  {name} "
+            tab_normal_fullscreen   "#[fg=#6C7086,bg=#181825,italic]  {name} [] "
+            tab_normal_sync         "#[fg=#6C7086,bg=#181825]  {name} <> "
+            tab_active              "#[fg=#blue,bg=#blue,bold,italic]  {name} "
+            tab_active_fullscreen   "#[fg=#9399B2,bg=#181825,bold,italic]  {name} [] "
+            tab_active_sync         "#[fg=#9399B2,bg=#181825,bold,italic]  {name} <> "
+
+            command_3_command   "echo -e \"#[fg=#6C7086,italic,bold] Siri \""
+            command_3_format    "{stdout}"
+            command_3_interval  "10"
+            command_3_rendermode "dynamic"
+
+        }
+    }
+    pane split_direction="vertical" {
+        pane borderless=true
+    }
+
+}

@@ -1,92 +1,84 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  -- bootstrap lazy.nvim
-  -- stylua: ignore
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
 end
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+vim.opt.rtp:prepend(lazypath)
 
+vim.g.mapleader = " "
+vim.g.loaded_netrw = 0
+vim.g.loaded_netrwPlugin = 0
+vim.o.modifiable = true
+
+vim.opt.number = true
 require("lazy").setup({
-  spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import any extras modules here
-    -- { import = "lazyvim.plugins.extras.lang.typescript" },
-    -- { import = "lazyvim.plugins.extras.lang.json" },
-    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    -- import/override with your plugins
+	spec = {
+		{ import = "plugins" },
+		{ "lazyvim.plugins.extras.lang.rust" },
+		{"lazyvim.utils"}
+	},
+})
 
-    { import = "lazyvim.plugins.extras.lang.rust" },
-    { import = "plugins" },
-  },
-  defaults = {
-    -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-    -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-    lazy = false,
-    -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-    -- have outdated releases, which may break your Neovim install.
-    version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
-  },
-  install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = { enabled = true }, -- automatically check for plugin updates
-  performance = {
-    rtp = {
-      -- disable some rtp plugins
-      disabled_plugins = {
-        "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
-      },
+vim.cmd([[colorscheme ayu-mirage]])
+require("mason").setup()
+require("cmp").setup()
+require("harpoon").setup()
+require("mason-lspconfig").setup()
+require("trouble").setup()
+require("neodev").setup({})
+
+local lspconfig = require('lspconfig')
+lspconfig.pyright.setup {}
+lspconfig.intelephense.setup {}
+lspconfig.rust_analyzer.setup {
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                runBuildScripts = true,
+              },
+              checkOnSave = {
+                allFeatures = true,
+                command = "clippy",
+                extraArgs = { "--no-deps" },
+              },
+              procMacro = {
+                enable = true,
+                ignored = {
+                  ["async-trait"] = { "async_trait" },
+                  ["napi-derive"] = { "napi" },
+                  ["async-recursion"] = { "async_recursion" },
+                },
+              },
+            },
+          },
+}
+
+require("inlay-hints").setup({
+  only_current_line = true,
+
+  eol = {
+    right_align = true,
+  }
+})
+
+require("rust-tools").setup({
+  tools = {
+    inlay_hints = {
+      auto = true,
     },
   },
-  opts = function()
-    local ok, mason_registry = pcall(require, "mason-registry")
-    local adapter ---@type any
-    if ok then
-      -- rust tools configuration for debugging support
-      local codelldb = mason_registry.get_package("codelldb")
-      local extension_path = codelldb:get_install_path() .. "/extension/"
-      local codelldb_path = extension_path .. "adapter/codelldb"
-      local liblldb_path = ""
-      if vim.loop.os_uname().sysname:find("Windows") then
-        liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
-      elseif vim.fn.has("mac") == 1 then
-        liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
-      else
-        liblldb_path = extension_path .. "lldb/lib/liblldb.so"
-      end
-      adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-    end
-    return {
-      dap = {
-        adapter = adapter,
-      },
-      tools = {
-        on_initialized = function()
-          vim.cmd([[
-              augroup RustLSP
-                autocmd CursorHold                      *.rs silent! lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved,InsertEnter         *.rs silent! lua vim.lsp.buf.clear_references()
-                autocmd BufEnter,CursorHold,InsertLeave *.rs silent! lua vim.lsp.codelens.refresh()
-              augroup END
-            ]])
-        end,
-      },
-    }
-  end,
-})
-require("vscode").setup({
-  transparent = false,
-  italic_comments = true,
-  disable_nvimtree_bg = true,
-  color_overrides = {
-    vscLineNumber = "#FFFFFF",
+  server = {
+    on_attach = function(c, b)
+      ih.on_attach(c, b)
+    end,
   },
 })
-require("telescope").load_extension("dap")
+

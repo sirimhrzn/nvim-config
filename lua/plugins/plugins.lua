@@ -1,38 +1,33 @@
 return {
   {
-
-    "projekt0n/github-nvim-theme",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require("github-theme").setup({
-        -- ...
-      })
-    end,
-  },
-  {
     "APZelos/blamer.nvim",
-  },
-  {
-    "mfussenegger/nvim-dap",
   },
   {
     "simrat39/rust-tools.nvim",
   },
   {
-    "declancm/cinnamon.nvim",
-  },
-  {
-    "edluffy/specs.nvim",
-  },
-  {
-    "ThePrimeagen/harpoon",
-  },
-  {
     "folke/zen-mode.nvim",
   },
-  { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
+  {'nvim-telescope/telescope.nvim',
+  	tag = '0.1.5',
+      	dependencies = { 'nvim-lua/plenary.nvim' }
+  },
+
   { "folke/neodev.nvim", opts = {} },
-  { "theHamsta/nvim-dap-virtual-text" },
-  { "nvim-telescope/telescope-dap.nvim" },
+
+{"preservim/nerdtree"},
+	{
+  "karb94/neoscroll.nvim",
+  config = function ()
+    require('neoscroll').setup {}
+  end
+}, 
+	{ "Aszarsha/elysian.vim" },
+	{ "navarasu/onedark.nvim" },
+	{ "rebelot/kanagawa.nvim"},
+	{ "Shatur/neovim-ayu"},
+	{
+    "folke/trouble.nvim",
+  },
+  {'simrat39/inlay-hints.nvim'}
 }
