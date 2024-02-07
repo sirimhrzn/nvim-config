@@ -25,13 +25,14 @@ require("lazy").setup({
 	},
 })
 
-vim.cmd([[colorscheme ayu-mirage]])
+vim.cmd([[colorscheme onedark]])
 require("mason").setup()
 require("cmp").setup()
 require("harpoon").setup()
 require("mason-lspconfig").setup()
 require("trouble").setup()
 require("neodev").setup({})
+-- require("vim-devicons").setup {}
 
 local lspconfig = require('lspconfig')
 lspconfig.pyright.setup {}
