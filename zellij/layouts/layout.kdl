@@ -1,8 +1,8 @@
 layout {
     pane size=1 borderless=true {
-        plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+        plugin location="file:.config/zellij/layouts/plugins/zjstatus.wasm" {
             format_left  "#[fg=#6C7086,bold]{session} {tabs}"
-            format_right "{mode} {command_3}  {datetime}"
+            format_right "{command_5} {command_3} {command_4} {datetime}"
             datetime        "#[fg=#6C7086,bold] {format} "
             datetime_format "%A,%H:%M"
 
@@ -17,14 +17,24 @@ layout {
             tab_normal              "#[fg=#blue,bg=#blue,italic]  {name} "
             tab_normal_fullscreen   "#[fg=#6C7086,bg=#181825,italic]  {name} [] "
             tab_normal_sync         "#[fg=#6C7086,bg=#181825]  {name} <> "
-            tab_active              "#[fg=#blue,bg=#blue,bold,italic]  {name} "
+            tab_active              "#[fg=#blue,bg=#318CE7,bold,italic]  {name} "
             tab_active_fullscreen   "#[fg=#9399B2,bg=#181825,bold,italic]  {name} [] "
             tab_active_sync         "#[fg=#9399B2,bg=#181825,bold,italic]  {name} <> "
 
-            command_3_command   "echo -e \"#[fg=#6C7086,italic,bold] Siri \""
+            command_3_command   "bash -c \"~/zel-scripts/ip.sh\""
             command_3_format    "{stdout}"
             command_3_interval  "10"
             command_3_rendermode "dynamic"
+
+     	    command_4_command   "bash -c \"~/zel-scripts/battery.sh\""
+            command_4_format    "{stdout}"
+            command_4_interval  "5"
+            command_4_rendermode "dynamic"
+
+     	    command_5_command   "bash -c \"~/zel-scripts/vpn.sh\""
+            command_5_format    "{stdout}"
+            command_5_interval  "5"
+            command_5_rendermode "dynamic"
 
         }
     }
